@@ -1,6 +1,4 @@
-
-#ifndef _RTK_BUTTON_H_
-#define _RTK_BUTTON_H_
+#pragma once
 
 #include "config.h"
 
@@ -27,5 +25,3 @@ namespace rtk
 
     };
 }
-
-#endif

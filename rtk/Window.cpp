@@ -1,8 +1,5 @@
-
+#include "pch.h"
 #include "Window.h"
-
-#include <stdexcept>
-#include <vector>
 
 #include "utils.h"
 

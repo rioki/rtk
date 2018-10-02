@@ -1,6 +1,4 @@
-
-#ifndef _RTK_CONFIG_H_
-#define _RTK_CONFIG_H_
+#pragma once
 
 #include <windows.h>
 
@@ -8,4 +6,3 @@
 
 #pragma warning (disable: 4251)
 
-#endif

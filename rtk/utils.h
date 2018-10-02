@@ -1,6 +1,4 @@
-
-#ifndef _RTK_UTILS_H_
-#define _RTK_UTILS_H_
+#pragma once
 
 #include "config.h"
 
@@ -26,5 +24,3 @@ namespace rtk
 
     RTK_EXPORT void show_message_box(const std::string& caption, const std::string& text);
 }
-
-#endif

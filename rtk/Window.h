@@ -1,6 +1,4 @@
-
-#ifndef _RTK_WINDOW_H_
-#define _RTK_WINDOW_H_
+#pragma once
 
 #include "config.h"
 
@@ -44,5 +42,3 @@ namespace rtk
     };
 
 }
-
-#endif
