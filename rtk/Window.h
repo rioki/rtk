@@ -13,9 +13,23 @@ namespace rtk
     class RTK_EXPORT Window : public Control
     {
     public:
-        Window(int x, int y, int width, int height, const std::string& caption);
+        Window(int left, int top, int width, int height, const std::string& caption);
 
         ~Window();
+
+		int get_left() const;
+
+		int get_top() const;
+
+		int get_right() const;
+
+		int get_bottom() const;
+
+		int get_width() const;
+
+		int get_height() const;
+
+		std::string get_caption() const;
 
         void show(int cmd = SW_SHOW);
 
@@ -25,10 +39,8 @@ namespace rtk
 
         void run();
 
-    private:
-
-        Window(const Window&);
-        const Window& operator = (const Window&);
+	private:
+		RECT getRect() const;
     };
 
 }

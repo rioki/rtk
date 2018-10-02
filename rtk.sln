@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "rtk", "rtk\rtk.vcxproj", "{
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "hello", "examples\hello\hello.vcxproj", "{4922782D-9ADE-4762-8AA8-795DF1F17779}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "rtk-test", "rtk-test\rtk-test.vcxproj", "{1F0AD6FE-D6FE-48D9-8E07-585F71575A58}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -31,6 +33,14 @@ Global
 		{4922782D-9ADE-4762-8AA8-795DF1F17779}.Release|Win32.Build.0 = Release|Win32
 		{4922782D-9ADE-4762-8AA8-795DF1F17779}.Release|x64.ActiveCfg = Release|x64
 		{4922782D-9ADE-4762-8AA8-795DF1F17779}.Release|x64.Build.0 = Release|x64
+		{1F0AD6FE-D6FE-48D9-8E07-585F71575A58}.Debug|Win32.ActiveCfg = Debug|Win32
+		{1F0AD6FE-D6FE-48D9-8E07-585F71575A58}.Debug|Win32.Build.0 = Debug|Win32
+		{1F0AD6FE-D6FE-48D9-8E07-585F71575A58}.Debug|x64.ActiveCfg = Debug|x64
+		{1F0AD6FE-D6FE-48D9-8E07-585F71575A58}.Debug|x64.Build.0 = Debug|x64
+		{1F0AD6FE-D6FE-48D9-8E07-585F71575A58}.Release|Win32.ActiveCfg = Release|Win32
+		{1F0AD6FE-D6FE-48D9-8E07-585F71575A58}.Release|Win32.Build.0 = Release|Win32
+		{1F0AD6FE-D6FE-48D9-8E07-585F71575A58}.Release|x64.ActiveCfg = Release|x64
+		{1F0AD6FE-D6FE-48D9-8E07-585F71575A58}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

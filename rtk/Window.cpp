@@ -2,6 +2,7 @@
 #include "Window.h"
 
 #include <stdexcept>
+#include <vector>
 
 #include "utils.h"
 
@@ -67,23 +68,80 @@ namespace rtk
         }
     }
 
-    Window::Window(int x, int y, int width, int height, const std::string& title)
+    Window::Window(int left, int top, int width, int height, const std::string& title)
     {
         HINSTANCE hInst = GetModuleHandle(NULL);
         create_rtk_window_class(hInst);
 
-        hWnd = CreateWindowEx(NULL, L"RTK-WINDOW", widen(title).c_str(), WS_OVERLAPPEDWINDOW, x, y, width, height, NULL, NULL, hInst, this);
+        hWnd = CreateWindowEx(NULL, L"RTK-WINDOW", widen(title).c_str(), WS_OVERLAPPEDWINDOW, left, top, width, height, NULL, NULL, hInst, this);
 
         if(!hWnd)
         {
             throw std::runtime_error(get_last_error());
         } 
+
+		SetWindowText(hWnd, widen(title).c_str());
     }
 
     Window::~Window()
     {
         DestroyWindow(hWnd);
     }
+
+	int Window::get_left() const
+	{
+		return getRect().left;
+	}
+
+	int Window::get_top() const
+	{
+		return getRect().top;
+	}
+
+	int Window::get_right() const
+	{
+		return getRect().right;
+	}
+
+	int Window::get_bottom() const
+	{
+		return getRect().bottom;
+	}
+
+	int Window::get_width() const
+	{
+		RECT rect = getRect();
+		return rect.right - rect.left;
+	}
+
+	int Window::get_height() const
+	{
+		RECT rect = getRect();
+		return rect.bottom - rect.top;
+	}
+
+	std::string Window::get_caption() const
+	{
+		int len1 = GetWindowTextLength(hWnd);
+		if (len1 < 0)
+		{
+			throw std::runtime_error(__FUNCTION__ ":1");
+		}
+
+		if (len1 == 0)
+		{
+			return std::string();
+		}
+
+		std::vector<wchar_t> buffer(len1 + 1);
+		int len2 = GetWindowText(hWnd, buffer.data(), static_cast<int>(buffer.size()));
+		if (len1 != len2)
+		{
+			throw std::runtime_error(__FUNCTION__ ":2");
+		}
+		
+		return narrow(buffer.data());
+	}
 
     void Window::show(int cmd)
     {
@@ -111,4 +169,15 @@ namespace rtk
             DispatchMessage(&msg);
         }
     }
+
+	RECT Window::getRect() const
+	{
+		RECT rect;
+		BOOL r = GetWindowRect(hWnd, &rect);
+		if (r == FALSE)
+		{
+			throw std::runtime_error(__FUNCTION__);
+		}
+		return rect;
+	}
 }
