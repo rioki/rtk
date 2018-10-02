@@ -7,16 +7,13 @@
 #include <string>
 
 #include "Control.h"
-#include "Point.h"
-#include "Size.h"
-
 
 namespace rtk
 {
     class RTK_EXPORT Window : public Control
     {
     public:
-        Window(Point& pos, Size& size, const std::string& caption);
+        Window(int x, int y, int width, int height, const std::string& caption);
 
         ~Window();
 

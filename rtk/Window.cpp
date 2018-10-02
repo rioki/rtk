@@ -67,12 +67,12 @@ namespace rtk
         }
     }
 
-    Window::Window(Point& pos, Size& size, const std::string& title)
+    Window::Window(int x, int y, int width, int height, const std::string& title)
     {
         HINSTANCE hInst = GetModuleHandle(NULL);
         create_rtk_window_class(hInst);
 
-        hWnd = CreateWindowEx(NULL, L"RTK-WINDOW", widen(title).c_str(), WS_OVERLAPPEDWINDOW, pos.x, pos.y, size.w, size.h, NULL, NULL, hInst, this);
+        hWnd = CreateWindowEx(NULL, L"RTK-WINDOW", widen(title).c_str(), WS_OVERLAPPEDWINDOW, x, y, width, height, NULL, NULL, hInst, this);
 
         if(!hWnd)
         {

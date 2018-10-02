@@ -3,12 +3,7 @@
 
 namespace rtk
 {
-    Control::Control()
-    : hWnd(NULL) {}
-
-    Control::~Control() {}
-
-    HWND Control::get_hwnd() const
+    Control::operator HWND () const
     {
         return hWnd;
     }

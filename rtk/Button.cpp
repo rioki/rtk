@@ -8,12 +8,11 @@
 
 namespace rtk
 {
-    Button::Button(Control& parent, Point& pos, Size& size, const std::string& caption) 
+    Button::Button(Control& parent, int x, int y, int width, int height, const std::string& caption)
     {
-        HWND  hParent = parent.get_hwnd();
         DWORD dwStyle = WS_TABSTOP|WS_VISIBLE|WS_CHILD|BS_DEFPUSHBUTTON;
 
-        hWnd = CreateWindowEx(NULL, L"BUTTON", widen(caption).c_str(), dwStyle, pos.x, pos.y, size.w, size.h, hParent, (HMENU)IDC_MAIN_BUTTON, GetModuleHandle(NULL), NULL);
+        hWnd = CreateWindowEx(NULL, L"BUTTON", widen(caption).c_str(), dwStyle, x, y, width, height, parent, (HMENU)IDC_MAIN_BUTTON, GetModuleHandle(NULL), NULL);
         if (hWnd == NULL) 
         {
             throw std::runtime_error(get_last_error());

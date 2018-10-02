@@ -8,15 +8,13 @@
 #include <functional>
 
 #include "Control.h"
-#include "Point.h"
-#include "Size.h"
 
 namespace rtk
 {
     class RTK_EXPORT Button : public Control
     {
     public:
-        Button(Control& parent, Point& pos, Size& size, const std::string& caption);
+        Button(Control& parent, int x, int y, int width, int height, const std::string& caption);
 
         ~Button();
     

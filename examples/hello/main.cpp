@@ -5,9 +5,9 @@ INT WINAPI wWinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPWSTR lpCmdLine, INT 
 {
     try
     {
-        rtk::Window window(rtk::Point(200, 200), rtk::Size(150, 100), "Hello RTK");
+        rtk::Window window(200, 200, 150, 100, "Hello RTK");
 
-        rtk::Button button(window, rtk::Point(30, 20), rtk::Size(80, 30), "Click Me!");
+        rtk::Button button(window, 30, 20, 80, 30, "Click Me!");
         button.on_click([&] () {
             window.close();
         });

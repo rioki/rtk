@@ -148,17 +148,13 @@
     <ClInclude Include="Button.h" />
     <ClInclude Include="config.h" />
     <ClInclude Include="Control.h" />
-    <ClInclude Include="Point.h" />
     <ClInclude Include="rtk.h" />
-    <ClInclude Include="Size.h" />
     <ClInclude Include="utils.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Control.cpp" />
-    <ClCompile Include="Point.cpp" />
-    <ClCompile Include="Size.cpp" />
     <ClCompile Include="utils.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>

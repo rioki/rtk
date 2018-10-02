@@ -9,20 +9,21 @@ namespace rtk
     class RTK_EXPORT Control
     {
     public:
-        Control();
+        Control() = default;
 
-        ~Control();
+		Control(const Control&) = delete;
 
-        HWND get_hwnd() const;
+        virtual ~Control() = default;
+
+		const Control& operator = (const Control&) = delete;
+
+		operator HWND () const;
 
         virtual void handle_command();
 
     protected:        
-        HWND hWnd;
+        HWND hWnd = nullptr;
 
-    private:
-        Control(const Control&);
-        const Control& operator = (const Control&);
     };
 }
 
