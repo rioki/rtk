@@ -85,38 +85,6 @@ namespace rtk
         DestroyWindow(hWnd);
     }
 
-	int Window::get_left() const
-	{
-		return getRect().left;
-	}
-
-	int Window::get_top() const
-	{
-		return getRect().top;
-	}
-
-	int Window::get_right() const
-	{
-		return getRect().right;
-	}
-
-	int Window::get_bottom() const
-	{
-		return getRect().bottom;
-	}
-
-	int Window::get_width() const
-	{
-		RECT rect = getRect();
-		return rect.right - rect.left;
-	}
-
-	int Window::get_height() const
-	{
-		RECT rect = getRect();
-		return rect.bottom - rect.top;
-	}
-
 	std::string Window::get_caption() const
 	{
 		int len1 = GetWindowTextLength(hWnd);
@@ -166,15 +134,4 @@ namespace rtk
             DispatchMessage(&msg);
         }
     }
-
-	RECT Window::getRect() const
-	{
-		RECT rect;
-		BOOL r = GetWindowRect(hWnd, &rect);
-		if (r == FALSE)
-		{
-			throw std::runtime_error(__FUNCTION__);
-		}
-		return rect;
-	}
 }

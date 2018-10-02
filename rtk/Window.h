@@ -15,18 +15,6 @@ namespace rtk
 
         ~Window();
 
-		int get_left() const;
-
-		int get_top() const;
-
-		int get_right() const;
-
-		int get_bottom() const;
-
-		int get_width() const;
-
-		int get_height() const;
-
 		std::string get_caption() const;
 
         void show(int cmd = SW_SHOW);
@@ -36,9 +24,6 @@ namespace rtk
         void close();
 
         void run();
-
-	private:
-		RECT getRect() const;
     };
 
 }

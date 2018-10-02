@@ -17,10 +17,25 @@ namespace rtk
 
 		operator HWND () const;
 
+		int get_left() const;
+
+		int get_top() const;
+
+		int get_right() const;
+
+		int get_bottom() const;
+
+		int get_width() const;
+
+		int get_height() const;
+
         virtual void handle_command();
 
     protected:        
         HWND hWnd = nullptr;
+
+	private:
+		RECT getRect() const;
 
     };
 }
