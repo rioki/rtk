@@ -6,10 +6,8 @@
 
 namespace rtk
 {
-    RTK_EXPORT std::wstring widen(const char* str);
-    RTK_EXPORT std::wstring widen(const std::string& str);
-    RTK_EXPORT std::string narrow(const wchar_t* str);
-    RTK_EXPORT std::string narrow(const std::wstring& str);    
+    RTK_EXPORT std::wstring widen(const std::string_view str);
+    RTK_EXPORT std::string narrow(const std::wstring_view str);    
     RTK_EXPORT std::string get_last_error();
 
     enum MessageBoxButtons

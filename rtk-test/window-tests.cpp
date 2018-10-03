@@ -9,3 +9,11 @@ TEST(Window, construct) {
 	EXPECT_EQ("Hello World", window.get_caption());
 }
 
+TEST(Window, onlyCaptionConstructor)
+{
+	rtk::Window window("Hello World");
+	// NOTE: we actually don't know where windows puts the window
+	EXPECT_EQ(350, window.get_width());
+	EXPECT_EQ(350, window.get_height());
+	EXPECT_EQ("Hello World", window.get_caption());
+}

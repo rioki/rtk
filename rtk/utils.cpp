@@ -3,12 +3,7 @@
 
 namespace rtk
 {
-    std::wstring widen(const char* value)
-    {
-        return widen(std::string(value));
-    }
-
-    std::wstring widen(const std::string& value)
+    std::wstring widen(const std::string_view value)
     {
         if (value.empty())
         {
@@ -16,23 +11,18 @@ namespace rtk
         }
         
         std::vector<wchar_t> buff(value.size() + 126);
-        int r = MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, value.c_str(), value.size(), &buff[0], buff.size());
+        int r = MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, value.data(), value.size(), buff.data(), buff.size());
         if (r == 0)
         {
             throw std::logic_error("widen failed");        
         }
         else
         {
-            return std::wstring(&buff[0]);
+            return std::wstring(buff.data());
         }    
     }
 
-    std::string narrow(const wchar_t* value)
-    {
-        return narrow(std::wstring(value));
-    }
-
-    std::string narrow(const std::wstring& value)
+    std::string narrow(const std::wstring_view value)
     {
         if (value.empty())
         {
@@ -40,14 +30,14 @@ namespace rtk
         }
         
         std::vector<char> buff(value.size() * 2);
-        int r = WideCharToMultiByte(CP_UTF8, 0, value.c_str(), value.size(), &buff[0], buff.size(), NULL, NULL);
+        int r = WideCharToMultiByte(CP_UTF8, 0, value.data(), value.size(), buff.data(), buff.size(), NULL, NULL);
         if (r == 0)
         {
             throw std::logic_error("narrow failed");        
         }
         else
         {
-            return std::string(&buff[0]);
+            return std::string(buff.data());
         }
     }
 

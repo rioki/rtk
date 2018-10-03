@@ -65,19 +65,24 @@ namespace rtk
         }
     }
 
-    Window::Window(int left, int top, int width, int height, const std::string& title)
+	Window::Window(const std::string_view caption)
+	: Window(CW_USEDEFAULT, CW_USEDEFAULT, 350, 350, caption) {}
+
+    Window::Window(int left, int top, int width, int height, const std::string_view caption)
     {
         HINSTANCE hInst = GetModuleHandle(NULL);
         create_rtk_window_class(hInst);
 
-        hWnd = CreateWindowEx(NULL, L"RTK-WINDOW", widen(title).c_str(), WS_OVERLAPPEDWINDOW, left, top, width, height, NULL, NULL, hInst, this);
+		auto wcaption = widen(caption);
+
+        hWnd = CreateWindowEx(NULL, L"RTK-WINDOW", wcaption.data(), WS_OVERLAPPEDWINDOW, left, top, width, height, NULL, NULL, hInst, this);
 
         if(!hWnd)
         {
             throw std::runtime_error(get_last_error());
         } 
 
-		SetWindowText(hWnd, widen(title).c_str());
+		SetWindowText(hWnd, wcaption.data());
     }
 
     Window::~Window()
