@@ -40,6 +40,11 @@ namespace rtk
 		return rect.bottom - rect.top;
 	}
 
+	bool Control::is_visible() const
+	{
+		return IsWindowVisible(hWnd) == TRUE;
+	}
+
     void Control::handle_command() {}
 
 	RECT Control::getRect() const

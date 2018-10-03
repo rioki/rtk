@@ -17,3 +17,31 @@ TEST(Window, onlyCaptionConstructor)
 	EXPECT_EQ(350, window.get_height());
 	EXPECT_EQ("Hello World", window.get_caption());
 }
+
+TEST(Window, show)
+{
+	rtk::Window window("Hello World");
+	window.show();
+
+	EXPECT_TRUE(window.is_visible());
+}
+
+TEST(Window, run)
+{
+	using namespace std::chrono_literals;
+
+	rtk::Window window("Hello World");
+
+	auto start = std::chrono::high_resolution_clock::now();
+
+	auto future = std::async([&]() {
+		std::this_thread::sleep_for(100ms);
+		window.close();
+	});
+
+	window.run();
+
+	auto end = std::chrono::high_resolution_clock::now();
+
+	EXPECT_GE(start + 100ms, end);
+} 

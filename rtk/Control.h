@@ -29,6 +29,8 @@ namespace rtk
 
 		int get_height() const;
 
+		bool is_visible() const;
+
         virtual void handle_command();
 
     protected:        

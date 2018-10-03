@@ -5,5 +5,10 @@
 
 #pragma once
 
+#include <future>
+#include <chrono>
+#include <thread>
+
 #include <gtest/gtest.h>
+
 #include <rtk/rtk.h>
