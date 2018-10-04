@@ -154,6 +154,7 @@
     <ClInclude Include="Control.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="rtk.h" />
+    <ClInclude Include="TextInput.h" />
     <ClInclude Include="utils.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
@@ -164,6 +165,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">pch.h</PrecompiledHeaderFile>
     </ClCompile>
+    <ClCompile Include="TextInput.cpp" />
     <ClCompile Include="utils.cpp" />
     <ClCompile Include="Window.cpp" />
   </ItemGroup>

@@ -21,35 +21,36 @@
 // DEALINGS IN THE SOFTWARE.
 //
 
-#pragma once
+#include "pch.h"
 
-#include "config.h"
+TEST(TextInput, construct) {
+	rtk::Window window(__FUNCTION__);
+	rtk::TextInput input(window, 0, 1, 151, 14);
 
-#include <string>
+	// CHECKME
+	//EXPECT_EQ(0, input.get_left());
+	//EXPECT_EQ(1, input.get_top());
+	EXPECT_EQ(151, input.get_width());
+	EXPECT_EQ(14, input.get_height());
+}
 
-#include "Control.h"
-
-namespace rtk
+TEST(TextInput, defaults)
 {
-    class RTK_EXPORT Window : public Control
-    {
-    public:
+	rtk::Window window(__FUNCTION__);
+	rtk::TextInput input(window);
 
-		Window(const std::string_view caption);
+	EXPECT_EQ(150, input.get_width());
+	EXPECT_EQ(24, input.get_height());
+	EXPECT_EQ("", input.get_text());
+}
 
-        Window(int left, int top, int width, int height, const std::string_view caption);
+TEST(TextInput, set_get_text)
+{
+	rtk::Window window(__FUNCTION__);
+	rtk::TextInput input(window);
 
-        ~Window();
-
-		std::string get_caption() const;
-
-        void show(int cmd = SW_SHOW);
-
-        void hide();
-
-        void close();
-
-        void run();
-    };
-
+	EXPECT_EQ("", input.get_text());
+	
+	input.set_text("Yolo");
+	EXPECT_EQ("Yolo", input.get_text());
 }

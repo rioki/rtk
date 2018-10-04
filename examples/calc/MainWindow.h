@@ -23,33 +23,19 @@
 
 #pragma once
 
-#include "config.h"
+#include <rtk/rtk.h>
 
-#include <string>
-
-#include "Control.h"
-
-namespace rtk
+namespace calc
 {
-    class RTK_EXPORT Window : public Control
-    {
-    public:
+	class MainWindow : public rtk::Window
+	{
+	public:
 
-		Window(const std::string_view caption);
-
-        Window(int left, int top, int width, int height, const std::string_view caption);
-
-        ~Window();
-
-		std::string get_caption() const;
-
-        void show(int cmd = SW_SHOW);
-
-        void hide();
-
-        void close();
-
-        void run();
-    };
-
+		MainWindow();
+		
+	private:	
+		rtk::TextInput display;
+		rtk::Button button;
+	};
 }
+

@@ -21,35 +21,37 @@
 // DEALINGS IN THE SOFTWARE.
 //
 
-#pragma once
+#include "pch.h"
 
-#include "config.h"
+#include "TextInput.h"
 
-#include <string>
-
-#include "Control.h"
+#include <stdexcept>
+#include "utils.h"
 
 namespace rtk
 {
-    class RTK_EXPORT Window : public Control
-    {
-    public:
+	TextInput::TextInput(Control& parent)
+	: TextInput(parent, 0, 0, 150, 24) {}
 
-		Window(const std::string_view caption);
+	TextInput::TextInput(Control& parent, int left, int top, int width, int height)
+	{
+		DWORD dwStyle = WS_TABSTOP | WS_VISIBLE | WS_CHILD | WS_BORDER | ES_AUTOHSCROLL;
 
-        Window(int left, int top, int width, int height, const std::string_view caption);
+		hWnd = CreateWindowEx(NULL, L"EDIT", L"", dwStyle, left, top, width, height, parent, NULL, GetModuleHandle(NULL), NULL);
+		if (hWnd == NULL)
+		{
+			throw std::runtime_error(get_last_error());
+		}
+		SetWindowLongPtr(hWnd, GWLP_USERDATA, (LONG_PTR)this);
+	}
 
-        ~Window();
+	void TextInput::set_text(const std::string_view value)
+	{
+		set_window_text(value);
+	}
 
-		std::string get_caption() const;
-
-        void show(int cmd = SW_SHOW);
-
-        void hide();
-
-        void close();
-
-        void run();
-    };
-
+	std::string TextInput::get_text() const
+	{
+		return get_window_text();
+	}
 }

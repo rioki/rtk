@@ -23,33 +23,21 @@
 
 #pragma once
 
-#include "config.h"
-
-#include <string>
-
 #include "Control.h"
 
 namespace rtk
 {
-    class RTK_EXPORT Window : public Control
-    {
-    public:
+	class RTK_EXPORT TextInput : public Control
+	{
+	public:
 
-		Window(const std::string_view caption);
+		TextInput(Control& parent);
 
-        Window(int left, int top, int width, int height, const std::string_view caption);
+		TextInput(Control& parent, int left, int top, int width, int height);
 
-        ~Window();
+		void set_text(const std::string_view value);
 
-		std::string get_caption() const;
-
-        void show(int cmd = SW_SHOW);
-
-        void hide();
-
-        void close();
-
-        void run();
-    };
+		std::string get_text() const;
+	};
 
 }

@@ -21,35 +21,21 @@
 // DEALINGS IN THE SOFTWARE.
 //
 
-#pragma once
+#include "pch.h"
 
-#include "config.h"
+#include "MainWindow.h"
 
-#include <string>
-
-#include "Control.h"
-
-namespace rtk
+namespace calc
 {
-    class RTK_EXPORT Window : public Control
-    {
-    public:
-
-		Window(const std::string_view caption);
-
-        Window(int left, int top, int width, int height, const std::string_view caption);
-
-        ~Window();
-
-		std::string get_caption() const;
-
-        void show(int cmd = SW_SHOW);
-
-        void hide();
-
-        void close();
-
-        void run();
-    };
-
+	MainWindow::MainWindow()
+	: rtk::Window("Calculator"),
+	  display(*this, 30, 20, 150, 24),
+	  button(*this, 30, 100, 50, 30, "Yolo")
+	{
+		button.on_click([this]() {
+			auto text = display.get_text();
+			rtk::show_message_box("Well well well...", text);
+			display.set_text("Well...");
+		});
+	}
 }
