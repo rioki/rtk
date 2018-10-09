@@ -12,9 +12,16 @@ namespace rtk
     class RTK_EXPORT Button : public Control
     {
     public:
-        Button(Control& parent, int x, int y, int width, int height, const std::string& caption);
+
+		Button(Control& parent, const std::string_view caption);
+
+        Button(Control& parent, int x, int y, int width, int height, const std::string_view caption);
 
         ~Button();
+
+		void set_caption(const std::string_view value);
+
+		std::string get_caption() const;
     
         void on_click(std::function<void ()> cb);
 

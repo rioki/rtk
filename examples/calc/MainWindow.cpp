@@ -29,13 +29,7 @@ namespace calc
 {
 	MainWindow::MainWindow()
 	: rtk::Window("Calculator"),
-	  display(*this, 30, 20, 150, 24),
-	  button(*this, 30, 100, 50, 30, "Yolo")
+	  display(*this, 2, 2, get_inner_width() - 4, 24)
 	{
-		button.on_click([this]() {
-			auto text = display.get_text();
-			rtk::show_message_box("Well well well...", text);
-			display.set_text("Well...");
-		});
 	}
 }

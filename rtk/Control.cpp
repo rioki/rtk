@@ -35,34 +35,44 @@ namespace rtk
 
 	int Control::get_left() const
 	{
-		return getRect().left;
+		return get_rect().left;
 	}
 
 	int Control::get_top() const
 	{
-		return getRect().top;
+		return get_rect().top;
 	}
 
 	int Control::get_right() const
 	{
-		return getRect().right;
+		return get_rect().right;
 	}
 
 	int Control::get_bottom() const
 	{
-		return getRect().bottom;
+		return get_rect().bottom;
 	}
 
 	int Control::get_width() const
 	{
-		RECT rect = getRect();
+		RECT rect = get_rect();
 		return rect.right - rect.left;
 	}
 
 	int Control::get_height() const
 	{
-		RECT rect = getRect();
+		RECT rect = get_rect();
 		return rect.bottom - rect.top;
+	}
+
+	int Control::get_inner_width() const
+	{
+		return get_client_rect().right;
+	}
+
+	int Control::get_inner_height() const
+	{
+		return get_client_rect().bottom;
 	}
 
 	bool Control::is_visible() const
@@ -104,11 +114,24 @@ namespace rtk
 		return narrow(buffer.data());
 	}
 
-	RECT Control::getRect() const
+	RECT Control::get_rect() const
 	{
 		RECT rect;
 		
 		BOOL r = GetWindowRect(hWnd, &rect);
+		if (r == FALSE)
+		{
+			throw std::runtime_error(get_last_error());
+		}
+
+		return rect;
+	}
+
+	RECT Control::get_client_rect() const
+	{
+		RECT rect;
+
+		BOOL r = GetClientRect(hWnd, &rect);
 		if (r == FALSE)
 		{
 			throw std::runtime_error(get_last_error());

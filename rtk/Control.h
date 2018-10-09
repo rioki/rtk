@@ -52,6 +52,10 @@ namespace rtk
 
 		int get_height() const;
 
+		int get_inner_width() const;
+
+		int get_inner_height() const;
+
 		bool is_visible() const;
 
         virtual void handle_command();
@@ -62,7 +66,8 @@ namespace rtk
 		void set_window_text(const std::string_view value);
 		std::string get_window_text() const;
 
-		RECT getRect() const;
+		RECT get_rect() const;
+		RECT get_client_rect() const;
 
     };
 }
