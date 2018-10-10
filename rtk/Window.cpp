@@ -25,6 +25,7 @@
 
 #include "Window.h"
 
+#include "dbg.h"
 #include "utils.h"
 
 namespace rtk
@@ -89,7 +90,10 @@ namespace rtk
         }
     }
 
-	Window::Window(const std::string_view caption)
+    Window::Window()
+    : Window(CW_USEDEFAULT, CW_USEDEFAULT, 350, 350, "Window") {}
+
+    Window::Window(const std::string_view caption)
 	: Window(CW_USEDEFAULT, CW_USEDEFAULT, 350, 350, caption) {}
 
     Window::Window(int left, int top, int width, int height, const std::string_view caption)

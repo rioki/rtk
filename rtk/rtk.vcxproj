@@ -152,6 +152,7 @@
     <ClInclude Include="Button.h" />
     <ClInclude Include="config.h" />
     <ClInclude Include="Control.h" />
+    <ClInclude Include="dbg.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="rtk.h" />
     <ClInclude Include="TextInput.h" />
