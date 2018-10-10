@@ -90,9 +90,6 @@ namespace rtk
         }
     }
 
-    Window::Window()
-    : Window(CW_USEDEFAULT, CW_USEDEFAULT, 350, 350, "Window") {}
-
     Window::Window(const std::string_view caption)
 	: Window(CW_USEDEFAULT, CW_USEDEFAULT, 350, 350, caption) {}
 

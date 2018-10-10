@@ -35,9 +35,7 @@ namespace rtk
     {
     public:
 
-        Window();
-
-		Window(const std::string_view caption);
+        explicit Window(const std::string_view caption);
 
         Window(int left, int top, int width, int height, const std::string_view caption);
 

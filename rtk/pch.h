@@ -23,9 +23,14 @@
 
 #pragma once
 
+#include <stdio.h>
+#include <intrin.h>
+
 #include <stdexcept>
 #include <string>
 #include <vector>
 #include <array>
+#include <sstream>
 
-#include <Windows.h>
+#include <windows.h>
+#include <dbghelp.h>

@@ -25,19 +25,24 @@
 
 #include "Control.h"
 
+#include <memory>
+
 namespace rtk
 {
 	class RTK_EXPORT TextInput : public Control
 	{
 	public:
-
-		TextInput(Control& parent);
+        explicit
+        TextInput(Control& parent);
 
 		TextInput(Control& parent, int left, int top, int width, int height);
 
 		void set_text(const std::string_view value);
 
 		std::string get_text() const;
+
+    protected:
+        
 	};
 
 }

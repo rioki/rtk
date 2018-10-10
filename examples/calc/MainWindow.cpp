@@ -28,8 +28,7 @@
 namespace calc
 {
 	MainWindow::MainWindow()
-	: rtk::Window("Calculator"),
-	  display(*this, 2, 2, get_inner_width() - 4, 24)
+	: rtk::Window(CW_USEDEFAULT, CW_USEDEFAULT, 166, 252, "Calculator")
 	{
 	}
 }

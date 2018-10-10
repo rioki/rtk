@@ -1,12 +1,5 @@
 #include "pch.h"
 
-TEST(Window, default_contructor)
-{
-    rtk::Window window;
-    // the caption is the name of the application
-    EXPECT_EQ("rtk-test", window.get_caption());
-}
-
 TEST(Window, construct) {
 	rtk::Window window(151, 152, 201, 202, "Hello World");
 	EXPECT_EQ(151, window.get_left());
@@ -52,8 +45,3 @@ TEST(Window, run)
 
 	EXPECT_GE(start + 100ms, end);
 } 
-
-TEST(Window, window_as_container)
-{
-    rtk::Window window;
-}
