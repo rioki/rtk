@@ -13,6 +13,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "examples", "examples", "{05
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "calc", "examples\calc\calc.vcxproj", "{0B9E7A72-4DC0-4CF0-8A90-1440D52642F9}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "notes", "examples\notes\notes.vcxproj", "{F9D3E90F-5650-4947-A0C6-2295C79426AC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -53,6 +55,14 @@ Global
 		{0B9E7A72-4DC0-4CF0-8A90-1440D52642F9}.Release|Win32.Build.0 = Release|Win32
 		{0B9E7A72-4DC0-4CF0-8A90-1440D52642F9}.Release|x64.ActiveCfg = Release|x64
 		{0B9E7A72-4DC0-4CF0-8A90-1440D52642F9}.Release|x64.Build.0 = Release|x64
+		{F9D3E90F-5650-4947-A0C6-2295C79426AC}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F9D3E90F-5650-4947-A0C6-2295C79426AC}.Debug|Win32.Build.0 = Debug|Win32
+		{F9D3E90F-5650-4947-A0C6-2295C79426AC}.Debug|x64.ActiveCfg = Debug|x64
+		{F9D3E90F-5650-4947-A0C6-2295C79426AC}.Debug|x64.Build.0 = Debug|x64
+		{F9D3E90F-5650-4947-A0C6-2295C79426AC}.Release|Win32.ActiveCfg = Release|Win32
+		{F9D3E90F-5650-4947-A0C6-2295C79426AC}.Release|Win32.Build.0 = Release|Win32
+		{F9D3E90F-5650-4947-A0C6-2295C79426AC}.Release|x64.ActiveCfg = Release|x64
+		{F9D3E90F-5650-4947-A0C6-2295C79426AC}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -60,6 +70,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{4922782D-9ADE-4762-8AA8-795DF1F17779} = {05A1681F-E6BF-4727-A2B2-DB0A4114C52D}
 		{0B9E7A72-4DC0-4CF0-8A90-1440D52642F9} = {05A1681F-E6BF-4727-A2B2-DB0A4114C52D}
+		{F9D3E90F-5650-4947-A0C6-2295C79426AC} = {05A1681F-E6BF-4727-A2B2-DB0A4114C52D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9D1F6744-5CA4-4AEE-B2B5-A26B06269597}

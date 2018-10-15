@@ -21,5 +21,18 @@
 // DEALINGS IN THE SOFTWARE.
 //
 
-#include "pch.h"
+#pragma once
 
+#include <rtk/rtk.h>
+
+namespace notes
+{
+    class MainWindow : public rtk::Window
+    {
+    public:
+        MainWindow();
+
+    private:
+        
+    };
+}

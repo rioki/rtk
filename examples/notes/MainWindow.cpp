@@ -23,3 +23,13 @@
 
 #include "pch.h"
 
+#include "MainWindow.h"
+
+namespace notes
+{
+    MainWindow::MainWindow()
+    : rtk::Window("notes")
+    {
+        
+    }
+}
