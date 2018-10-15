@@ -30,6 +30,15 @@ namespace notes
     MainWindow::MainWindow()
     : rtk::Window("notes")
     {
-        
+        create_menu();    
+    }
+
+    void MainWindow::create_menu()
+    {
+        auto menu = std::make_shared<rtk::Menu>();
+
+
+
+        set_menu(menu);
     }
 }

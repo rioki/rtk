@@ -21,45 +21,41 @@
 // DEALINGS IN THE SOFTWARE.
 //
 
-#pragma once
+#include "pch.h"
 
-#include "config.h"
-
-#include <string>
-#include <memory>
-
-#include "Control.h"
-
-namespace rtk
+TEST(Menu, construct) 
 {
-    class Menu;
-
-    class RTK_EXPORT Window : public Control
-    {
-    public:
-
-        explicit Window(const std::string_view caption);
-
-        Window(int left, int top, int width, int height, const std::string_view caption);
-
-        ~Window();
-
-		std::string get_caption() const;
-
-        void show(int cmd = SW_SHOW);
-
-        void hide();
-
-        void close();
-
-        void run();
-
-        void set_menu(std::shared_ptr<Menu> value);
-
-        std::shared_ptr<Menu> get_menu() const;
-
-    private:
-        std::shared_ptr<Menu> menu;
-    };
-
+	rtk::Menu menu;
+	EXPECT_TRUE(NULL != static_cast<HMENU>(menu));
 }
+
+TEST(Menu, initial_menu_is_null) 
+{
+	rtk::Window window(__FUNCTION__);
+    
+    HMENU hMenu = GetMenu(window);
+    EXPECT_TRUE(NULL == hMenu);
+}
+
+TEST(Menu, set_menu)
+{
+    rtk::Window window(__FUNCTION__);
+    auto menu = std::make_shared<rtk::Menu>();
+
+    window.set_menu(menu);
+
+    HMENU hMenu = GetMenu(window);
+    EXPECT_TRUE(hMenu == static_cast<HMENU>(*menu));
+}
+
+TEST(Menu, set_menu_null)
+{
+    rtk::Window window(__FUNCTION__);
+    std::shared_ptr<rtk::Menu> menu;
+
+    window.set_menu(menu);
+
+    HMENU hMenu = GetMenu(window);
+    EXPECT_TRUE(NULL == hMenu);
+}
+

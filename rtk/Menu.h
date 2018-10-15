@@ -25,41 +25,29 @@
 
 #include "config.h"
 
-#include <string>
-#include <memory>
-
-#include "Control.h"
-
 namespace rtk
 {
-    class Menu;
-
-    class RTK_EXPORT Window : public Control
+    class RTK_EXPORT Menu
     {
     public:
 
-        explicit Window(const std::string_view caption);
+        Menu();
 
-        Window(int left, int top, int width, int height, const std::string_view caption);
+        Menu(const Menu&) = delete;
 
-        ~Window();
+        ~Menu();
 
-		std::string get_caption() const;
+        Menu& operator = (const Menu&) = delete;
 
-        void show(int cmd = SW_SHOW);
+        operator HMENU ();
 
-        void hide();
+        operator const HMENU () const;
 
-        void close();
 
-        void run();
-
-        void set_menu(std::shared_ptr<Menu> value);
-
-        std::shared_ptr<Menu> get_menu() const;
 
     private:
-        std::shared_ptr<Menu> menu;
+        HMENU hMenu = NULL;
     };
+
 
 }

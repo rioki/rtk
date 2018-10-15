@@ -21,45 +21,38 @@
 // DEALINGS IN THE SOFTWARE.
 //
 
-#pragma once
+#include "pch.h"
 
-#include "config.h"
+#include "Menu.h"
 
-#include <string>
-#include <memory>
-
-#include "Control.h"
+#include "dbg.h"
+#include "utils.h"
 
 namespace rtk
 {
-    class Menu;
-
-    class RTK_EXPORT Window : public Control
+    Menu::Menu()
     {
-    public:
+        hMenu = CreateMenu();
+        if (hMenu == NULL)
+        {
+			throw std::runtime_error(get_last_error());
+		}
+    }
 
-        explicit Window(const std::string_view caption);
+    Menu::~Menu()
+    {
+        DestroyMenu(hMenu);
+    }
 
-        Window(int left, int top, int width, int height, const std::string_view caption);
+    Menu::operator HMENU ()
+    {
+        DBG_ASSERT(hMenu != NULL);
+        return hMenu;
+    }
 
-        ~Window();
-
-		std::string get_caption() const;
-
-        void show(int cmd = SW_SHOW);
-
-        void hide();
-
-        void close();
-
-        void run();
-
-        void set_menu(std::shared_ptr<Menu> value);
-
-        std::shared_ptr<Menu> get_menu() const;
-
-    private:
-        std::shared_ptr<Menu> menu;
-    };
-
+    Menu::operator const HMENU () const
+    {
+        DBG_ASSERT(hMenu != NULL);
+        return hMenu;
+    }
 }

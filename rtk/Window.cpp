@@ -28,6 +28,8 @@
 #include "dbg.h"
 #include "utils.h"
 
+#include "Menu.h"
+
 namespace rtk
 {
     LRESULT CALLBACK Window_WinProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -145,5 +147,26 @@ namespace rtk
             TranslateMessage(&msg);
             DispatchMessage(&msg);
         }
+    }
+
+    void Window::set_menu(std::shared_ptr<Menu> value)
+    {
+        DBG_ASSERT(hWnd != NULL);
+        if (value)
+        {
+            SetMenu(hWnd, *value);
+        }
+        else
+        {
+            SetMenu(hWnd, NULL);
+        }
+
+        menu = value;
+    }
+
+    std::shared_ptr<Menu> Window::get_menu() const
+    {
+        DBG_SOFT_ASSERT(menu);
+        return menu;
     }
 }

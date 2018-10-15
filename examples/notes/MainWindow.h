@@ -33,6 +33,6 @@ namespace notes
         MainWindow();
 
     private:
-        
+        void create_menu();
     };
 }
