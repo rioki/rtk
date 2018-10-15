@@ -31,6 +31,9 @@
 #include <vector>
 #include <array>
 #include <sstream>
+#include <map>
+#include <functional>
+#include <atomic>
 
 #include <windows.h>
 #include <dbghelp.h>

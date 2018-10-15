@@ -53,7 +53,15 @@ namespace rtk
                 Control* ctrl = (Control*)GetWindowLongPtr(hCtrl, GWLP_USERDATA);
                 if (ctrl != NULL) 
                 {
-                    ctrl->handle_command();
+                    ctrl->handle_command(wParam);
+                }
+                else
+                {
+                    Control* window = (Control*)GetWindowLongPtr(hWnd, GWLP_USERDATA);
+                    if (window != NULL) 
+                    {
+                        window->handle_command(wParam);
+                    }
                 }
                 break;
             }
@@ -168,5 +176,13 @@ namespace rtk
     {
         DBG_SOFT_ASSERT(menu);
         return menu;
+    }
+
+    void Window::handle_command(WPARAM wParam)
+    {
+        if (menu)
+        {
+            menu->handle_command(wParam);
+        }
     }
 }

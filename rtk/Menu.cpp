@@ -55,4 +55,52 @@ namespace rtk
         DBG_ASSERT(hMenu != NULL);
         return hMenu;
     }
+    
+    void Menu::add(const std::wstring_view caption, std::function<void()> callback)
+    {
+        DBG_ASSERT(hMenu != NULL);
+        DBG_ASSERT(callback != NULL);
+
+        DWORD id = get_unique_id();
+        callbacks[id] = callback;
+
+        BOOL r = AppendMenu(hMenu, MF_STRING, id, caption.data());
+        if (r != TRUE)
+        {
+			throw std::runtime_error(get_last_error());
+        }
+    }
+
+    void Menu::add(const std::wstring_view caption, std::shared_ptr<Menu> menu)
+    {
+        DBG_ASSERT(hMenu != NULL);
+        DBG_ASSERT(menu != NULL);
+
+        submenus.push_back(menu);
+
+        HMENU hSubMenu = *menu;
+
+        BOOL r = AppendMenu(hMenu,MF_POPUP, reinterpret_cast<INT_PTR>(hSubMenu), caption.data());
+        if (r != TRUE)
+        {
+			throw std::runtime_error(get_last_error());
+        }
+    }
+
+    void Menu::handle_command(WPARAM wParam)
+    {
+        auto i = callbacks.find(static_cast<DWORD>(wParam));
+        if (i != callbacks.end())
+        {
+            DBG_ASSERT(i->second);
+            i->second();
+        }
+        else
+        {
+            for (auto submenu : submenus)
+            {
+                submenu->handle_command(wParam);
+            }
+        }
+    }
 }

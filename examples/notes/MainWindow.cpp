@@ -37,6 +37,25 @@ namespace notes
     {
         auto menu = std::make_shared<rtk::Menu>();
 
+        auto fileMenu = std::make_shared<rtk::Menu>();
+
+        auto fileNewMenu = std::make_shared<rtk::Menu>();
+
+        fileNewMenu->add(L"New &Text", [this] () {
+        
+        });
+
+        fileNewMenu->add(L"New &Hex", [this] () {
+        
+        });
+
+        fileMenu->add(L"&New", fileNewMenu);
+
+        fileMenu->add(L"&Exit\tAlt+F4", [this] () {
+            close();
+        });
+
+        menu->add(L"&File", fileMenu);
 
 
         set_menu(menu);

@@ -109,4 +109,11 @@ namespace rtk
 
         return path.substr(b, e - b);
     }
+
+    DWORD get_unique_id()
+    {
+        static std::atomic<DWORD> last_id(10000);
+        return ++last_id;
+
+    }
 }

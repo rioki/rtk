@@ -42,7 +42,7 @@ namespace rtk
         click_cb = cb;
     }
 
-    void Button::handle_command()
+    void Button::handle_command(WPARAM wParam)
     {
         if (click_cb)
         {

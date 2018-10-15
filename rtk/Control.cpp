@@ -80,7 +80,7 @@ namespace rtk
 		return IsWindowVisible(hWnd) == TRUE;
 	}
 
-    void Control::handle_command() {}
+    void Control::handle_command(WPARAM wParam) {}
 
 	void Control::set_window_text(const std::string_view value)
 	{

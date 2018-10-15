@@ -25,6 +25,11 @@
 
 #include "config.h"
 
+#include <string>
+#include <vector>
+#include <map>
+#include <functional>
+
 namespace rtk
 {
     class RTK_EXPORT Menu
@@ -43,10 +48,17 @@ namespace rtk
 
         operator const HMENU () const;
 
+        void add(const std::wstring_view caption, std::function<void ()> callback);
 
+        void add(const std::wstring_view caption, std::shared_ptr<Menu> menu);
+
+        void handle_command(WPARAM wParam);
 
     private:
         HMENU hMenu = NULL;
+
+        std::map<DWORD, std::function<void ()>> callbacks;
+        std::vector<std::shared_ptr<Menu>> submenus;
     };
 
 

@@ -49,4 +49,6 @@ namespace rtk
      * Get the application's name.
      */
     RTK_EXPORT std::wstring get_app_name();
+
+    RTK_EXPORT DWORD get_unique_id();
 }

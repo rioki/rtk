@@ -58,7 +58,7 @@ namespace rtk
 
 		bool is_visible() const;
 
-        virtual void handle_command();
+        virtual void handle_command(WPARAM wParam);
 
     protected:        
         HWND hWnd = nullptr;

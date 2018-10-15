@@ -58,6 +58,8 @@ namespace rtk
 
         std::shared_ptr<Menu> get_menu() const;
 
+        void handle_command(WPARAM wParam);
+
     private:
         std::shared_ptr<Menu> menu;
     };

@@ -25,7 +25,7 @@ namespace rtk
     
         void on_click(std::function<void ()> cb);
 
-        void handle_command();
+        void handle_command(WPARAM wParam);
 
     private:
         std::function<void ()> click_cb;
