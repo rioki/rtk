@@ -29,12 +29,47 @@
 #include <vector>
 #include <map>
 #include <functional>
+#include <memory>
 
 namespace rtk
 {
+    /**
+     * Menu 
+     *
+     * This class encapulates menus, submenus and popup menus.
+     */
     class RTK_EXPORT Menu
     {
     public:
+        
+        class RTK_EXPORT MenuItem
+        {
+        public:
+
+            MenuItem(HMENU menu, UINT position, DWORD id, std::function<void ()> callback);
+
+            MenuItem(HMENU menu, UINT position, std::shared_ptr<Menu> submenu);
+        
+            MenuItem(const MenuItem&) = delete;
+
+            MenuItem& operator = (const MenuItem&) = delete;
+
+            DWORD get_id() const;
+
+        private:
+            HMENU menu = NULL;
+            UINT position = 0;
+            DWORD id = 0;
+            std::function<void ()> callback;
+            std::shared_ptr<Menu> submenu;
+
+            friend class Menu;
+        };
+
+        /** 
+         * Create a menu.
+         */
+        static std::shared_ptr<Menu> create();
 
         Menu();
 
@@ -48,18 +83,15 @@ namespace rtk
 
         operator const HMENU () const;
 
-        void add(const std::wstring_view caption, std::function<void ()> callback);
+        std::shared_ptr<MenuItem> add(const std::wstring_view caption, std::function<void ()> callback);
 
-        void add(const std::wstring_view caption, std::shared_ptr<Menu> menu);
+        std::shared_ptr<MenuItem> add(const std::wstring_view caption, std::shared_ptr<Menu> menu);
 
         void handle_command(WPARAM wParam);
 
     private:
-        HMENU hMenu = NULL;
-
-        std::map<DWORD, std::function<void ()>> callbacks;
-        std::vector<std::shared_ptr<Menu>> submenus;
+        HMENU handle = NULL;
+        
+        std::vector<std::shared_ptr<MenuItem>> items;
     };
-
-
 }

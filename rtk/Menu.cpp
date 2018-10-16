@@ -30,10 +30,26 @@
 
 namespace rtk
 {
+    Menu::MenuItem::MenuItem(HMENU m, UINT p, DWORD i, std::function<void()> c)
+    : menu(m), position(p), id(i), callback(c) {}
+
+    Menu::MenuItem::MenuItem(HMENU m, UINT p, std::shared_ptr<Menu> sm)
+    : menu(m), position(p), submenu(sm) {}
+    
+    DWORD Menu::MenuItem::get_id() const
+    {
+        return id;
+    }
+
+    std::shared_ptr<Menu> Menu::create()
+    {
+        return std::make_shared<Menu>();
+    }
+
     Menu::Menu()
     {
-        hMenu = CreateMenu();
-        if (hMenu == NULL)
+        handle = CreateMenu();
+        if (handle == NULL)
         {
 			throw std::runtime_error(get_last_error());
 		}
@@ -41,66 +57,73 @@ namespace rtk
 
     Menu::~Menu()
     {
-        DestroyMenu(hMenu);
+        DestroyMenu(handle);
     }
 
     Menu::operator HMENU ()
     {
-        DBG_ASSERT(hMenu != NULL);
-        return hMenu;
+        DBG_ASSERT(handle != NULL);
+        return handle;
     }
 
     Menu::operator const HMENU () const
     {
-        DBG_ASSERT(hMenu != NULL);
-        return hMenu;
+        DBG_ASSERT(handle != NULL);
+        return handle;
     }
     
-    void Menu::add(const std::wstring_view caption, std::function<void()> callback)
+    std::shared_ptr<Menu::MenuItem> Menu::add(const std::wstring_view caption, std::function<void()> callback)
     {
-        DBG_ASSERT(hMenu != NULL);
+        DBG_ASSERT(handle != NULL);
         DBG_ASSERT(callback != NULL);
 
         DWORD id = get_unique_id();
-        callbacks[id] = callback;
-
-        BOOL r = AppendMenu(hMenu, MF_STRING, id, caption.data());
+        
+        BOOL r = AppendMenu(handle, MF_STRING, id, caption.data());
         if (r != TRUE)
         {
 			throw std::runtime_error(get_last_error());
         }
+
+        auto item = std::make_shared<MenuItem>(handle, items.size(), id, callback);
+        items.push_back(item);
+
+        return item;
     }
 
-    void Menu::add(const std::wstring_view caption, std::shared_ptr<Menu> menu)
+    std::shared_ptr<Menu::MenuItem> Menu::add(const std::wstring_view caption, std::shared_ptr<Menu> menu)
     {
-        DBG_ASSERT(hMenu != NULL);
+        DBG_ASSERT(handle != NULL);
         DBG_ASSERT(menu != NULL);
-
-        submenus.push_back(menu);
 
         HMENU hSubMenu = *menu;
 
-        BOOL r = AppendMenu(hMenu,MF_POPUP, reinterpret_cast<INT_PTR>(hSubMenu), caption.data());
+        BOOL r = AppendMenu(handle,MF_POPUP, reinterpret_cast<INT_PTR>(hSubMenu), caption.data());
         if (r != TRUE)
         {
 			throw std::runtime_error(get_last_error());
         }
+
+        auto item = std::make_shared<MenuItem>(handle, items.size(), menu);
+        items.push_back(item);
+
+        return item;
     }
 
     void Menu::handle_command(WPARAM wParam)
     {
-        auto i = callbacks.find(static_cast<DWORD>(wParam));
-        if (i != callbacks.end())
+        for (auto item : items)
         {
-            DBG_ASSERT(i->second);
-            i->second();
-        }
-        else
-        {
-            for (auto submenu : submenus)
+            if (item->id == wParam)
             {
-                submenu->handle_command(wParam);
+                DBG_ASSERT(item->callback);
+                item->callback();
+            }
+            else if (item->submenu)
+            {
+                item->submenu->handle_command(wParam);
             }
         }
     }
+    
 }

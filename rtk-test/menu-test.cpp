@@ -25,8 +25,9 @@
 
 TEST(Menu, construct) 
 {
-	rtk::Menu menu;
-	EXPECT_TRUE(NULL != static_cast<HMENU>(menu));
+	auto menu = rtk::Menu::create();
+    EXPECT_TRUE(nullptr != menu);
+	EXPECT_TRUE(NULL != static_cast<HMENU>(*menu));
 }
 
 TEST(Menu, initial_menu_is_null) 
@@ -57,5 +58,19 @@ TEST(Menu, set_menu_null)
 
     HMENU hMenu = GetMenu(window);
     EXPECT_TRUE(NULL == hMenu);
+}
+
+TEST(Menu, dispatch)
+{
+    auto menu = rtk::Menu::create();
+    
+    bool triggered = false;
+    auto menuItem = menu->add(L"&Test", [&] () {
+        triggered = true;
+    });
+
+    menu->handle_command(menuItem->get_id());
+
+    EXPECT_EQ(true, triggered);
 }
 
