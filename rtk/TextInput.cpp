@@ -40,17 +40,17 @@ namespace rtk
 		hWnd = CreateWindowEx(NULL, L"EDIT", L"", dwStyle, left, top, width, height, parent, NULL, GetModuleHandle(NULL), NULL);
 		if (hWnd == NULL)
 		{
-			throw std::runtime_error(get_last_error());
+			throw std::runtime_error(narrow(get_last_error()));
 		}
 		SetWindowLongPtr(hWnd, GWLP_USERDATA, (LONG_PTR)this);
 	}
 
-	void TextInput::set_text(const std::string_view value)
+	void TextInput::set_text(const std::wstring_view value)
 	{
 		set_window_text(value);
 	}
 
-	std::string TextInput::get_text() const
+	std::wstring TextInput::get_text() const
 	{
 		return get_window_text();
 	}

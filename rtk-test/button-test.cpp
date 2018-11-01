@@ -24,34 +24,34 @@
 #include "pch.h"
 
 TEST(Button, construct) {
-	rtk::Window window(__FUNCTION__);
-	rtk::Button button(window, 0, 1, 151, 14, "YOLO");
+	rtk::Window window;
+	rtk::Button button(window, 0, 1, 151, 14, L"YOLO");
 
 	// CHECKME
 	//EXPECT_EQ(0, button.get_left());
 	//EXPECT_EQ(1, button.get_top());
 	EXPECT_EQ(151, button.get_width());
 	EXPECT_EQ(14, button.get_height());
-	EXPECT_EQ("YOLO", button.get_caption());
+	EXPECT_EQ(L"YOLO", button.get_caption());
 }
 
 TEST(Button, defaults)
 {
-	rtk::Window window(__FUNCTION__);
-	rtk::Button button(window, "Kick ME");
+	rtk::Window window;
+	rtk::Button button(window, L"Kick ME");
 
 	EXPECT_EQ(150, button.get_width());
 	EXPECT_EQ(35, button.get_height());
-	EXPECT_EQ("Kick ME", button.get_caption());
+	EXPECT_EQ(L"Kick ME", button.get_caption());
 }
 
 TEST(Textbutton, capyion)
 {
-	rtk::Window window(__FUNCTION__);
-	rtk::Button button(window, "Yolo");
+	rtk::Window window;
+	rtk::Button button(window, L"Yolo");
 
-	EXPECT_EQ("Yolo", button.get_caption());
+	EXPECT_EQ(L"Yolo", button.get_caption());
 
-	button.set_caption("Swag");
-	EXPECT_EQ("Swag", button.get_caption());
+	button.set_caption(L"Swag");
+	EXPECT_EQ(L"Swag", button.get_caption());
 }

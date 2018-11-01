@@ -1,26 +1,26 @@
 #include "pch.h"
 
 TEST(Window, construct) {
-	rtk::Window window(151, 152, 201, 202, "Hello World");
+	rtk::Window window(151, 152, 201, 202, L"Hello World");
 	EXPECT_EQ(151, window.get_left());
 	EXPECT_EQ(152, window.get_top());
 	EXPECT_EQ(201, window.get_width());
 	EXPECT_EQ(202, window.get_height());
-	EXPECT_EQ("Hello World", window.get_caption());
+	EXPECT_EQ(L"Hello World", window.get_caption());
 }
 
 TEST(Window, onlyCaptionConstructor)
 {
-	rtk::Window window("Hello World");
+	rtk::Window window(L"Hello World");
 	// NOTE: we actually don't know where windows puts the window
 	EXPECT_EQ(350, window.get_width());
 	EXPECT_EQ(350, window.get_height());
-	EXPECT_EQ("Hello World", window.get_caption());
+	EXPECT_EQ(L"Hello World", window.get_caption());
 }
 
 TEST(Window, show)
 {
-	rtk::Window window("Hello World");
+	rtk::Window window(L"Hello World");
 	window.show();
 
 	EXPECT_TRUE(window.is_visible());
@@ -30,7 +30,7 @@ TEST(Window, run)
 {
 	using namespace std::chrono_literals;
 
-	rtk::Window window("Hello World");
+	rtk::Window window(L"Hello World");
 
 	auto start = std::chrono::high_resolution_clock::now();
 

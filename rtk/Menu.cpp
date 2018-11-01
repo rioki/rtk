@@ -51,7 +51,7 @@ namespace rtk
         handle = CreateMenu();
         if (handle == NULL)
         {
-			throw std::runtime_error(get_last_error());
+			throw std::runtime_error(narrow(get_last_error()));
 		}
     }
 
@@ -82,7 +82,7 @@ namespace rtk
         BOOL r = AppendMenu(handle, MF_STRING, id, caption.data());
         if (r != TRUE)
         {
-			throw std::runtime_error(get_last_error());
+			throw std::runtime_error(narrow(get_last_error()));
         }
 
         auto item = std::make_shared<MenuItem>(handle, items.size(), id, callback);
@@ -101,7 +101,7 @@ namespace rtk
         BOOL r = AppendMenu(handle,MF_POPUP, reinterpret_cast<INT_PTR>(hSubMenu), caption.data());
         if (r != TRUE)
         {
-			throw std::runtime_error(get_last_error());
+			throw std::runtime_error(narrow(get_last_error()));
         }
 
         auto item = std::make_shared<MenuItem>(handle, items.size(), menu);

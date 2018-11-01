@@ -63,8 +63,8 @@ namespace rtk
     protected:        
         HWND hWnd = nullptr;
 
-		void set_window_text(const std::string_view value);
-		std::string get_window_text() const;
+		void set_window_text(const std::wstring_view value);
+		std::wstring get_window_text() const;
 
 		RECT get_rect() const;
 		RECT get_client_rect() const;

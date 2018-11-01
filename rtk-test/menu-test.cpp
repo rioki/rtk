@@ -32,7 +32,7 @@ TEST(Menu, construct)
 
 TEST(Menu, initial_menu_is_null) 
 {
-	rtk::Window window(__FUNCTION__);
+	rtk::Window window;
     
     HMENU hMenu = GetMenu(window);
     EXPECT_TRUE(NULL == hMenu);
@@ -40,7 +40,7 @@ TEST(Menu, initial_menu_is_null)
 
 TEST(Menu, set_menu)
 {
-    rtk::Window window(__FUNCTION__);
+    rtk::Window window;
     auto menu = std::make_shared<rtk::Menu>();
 
     window.set_menu(menu);
@@ -51,7 +51,7 @@ TEST(Menu, set_menu)
 
 TEST(Menu, set_menu_null)
 {
-    rtk::Window window(__FUNCTION__);
+    rtk::Window window;
     std::shared_ptr<rtk::Menu> menu;
 
     window.set_menu(menu);

@@ -27,9 +27,9 @@ INT WINAPI wWinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPWSTR lpCmdLine, INT 
 {
     try
     {
-        rtk::Window window(200, 200, 150, 100, "Hello RTK");
+        rtk::Window window(200, 200, 150, 100, L"Hello RTK");
 
-        rtk::Button button(window, 30, 20, 80, 30, "Click Me!");
+        rtk::Button button(window, 30, 20, 80, 30, L"Click Me!");
         button.on_click([&] () {
             window.close();
         });
@@ -41,7 +41,7 @@ INT WINAPI wWinMain(HINSTANCE hInst, HINSTANCE hPrevInst, LPWSTR lpCmdLine, INT 
     }
     catch (const std::exception& ex)
     {
-        rtk::show_message_box("Error", ex.what());
+        rtk::show_message_box(L"Error", rtk::widen(ex.what()));
         return -1;
     }        
 }

@@ -38,13 +38,15 @@ namespace rtk
     {
     public:
 
-        explicit Window(const std::string_view caption);
+        explicit Window();
 
-        Window(int left, int top, int width, int height, const std::string_view caption);
+        explicit Window(const std::wstring_view caption);
+
+        Window(int left, int top, int width, int height, const std::wstring_view caption);
 
         ~Window();
 
-		std::string get_caption() const;
+		std::wstring get_caption() const;
 
         void show(int cmd = SW_SHOW);
 

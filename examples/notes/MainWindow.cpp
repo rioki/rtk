@@ -28,7 +28,7 @@
 namespace notes
 {
     MainWindow::MainWindow()
-    : rtk::Window("notes")
+    : rtk::Window(L"notes")
     {
         create_menu();    
     }

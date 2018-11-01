@@ -93,31 +93,32 @@ namespace rtk
 
             if(!RegisterClassEx(&wClass))
             {
-                throw std::runtime_error(get_last_error());
+                throw std::runtime_error(narrow(get_last_error()));
             }
 
             done = true;
         }
     }
 
-    Window::Window(const std::string_view caption)
+    Window::Window()
+	: Window(CW_USEDEFAULT, CW_USEDEFAULT, 350, 350, get_app_name()) {}
+
+    Window::Window(const std::wstring_view caption)
 	: Window(CW_USEDEFAULT, CW_USEDEFAULT, 350, 350, caption) {}
 
-    Window::Window(int left, int top, int width, int height, const std::string_view caption)
+    Window::Window(int left, int top, int width, int height, const std::wstring_view caption)
     {
         HINSTANCE hInst = GetModuleHandle(NULL);
         create_rtk_window_class(hInst);
 
-		auto wcaption = widen(caption);
-
-        hWnd = CreateWindowEx(NULL, L"RTK-WINDOW", wcaption.data(), WS_OVERLAPPEDWINDOW, left, top, width, height, NULL, NULL, hInst, this);
+        hWnd = CreateWindowEx(NULL, L"RTK-WINDOW", caption.data(), WS_OVERLAPPEDWINDOW, left, top, width, height, NULL, NULL, hInst, this);
 
         if(!hWnd)
         {
-            throw std::runtime_error(get_last_error());
+            throw std::runtime_error(narrow(get_last_error()));
         } 
 
-		SetWindowText(hWnd, wcaption.data());
+		SetWindowText(hWnd, caption.data());
     }
 
     Window::~Window()
@@ -125,7 +126,7 @@ namespace rtk
         DestroyWindow(hWnd);
     }
 
-	std::string Window::get_caption() const
+	std::wstring Window::get_caption() const
 	{
 		return get_window_text();
 	}

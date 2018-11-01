@@ -37,9 +37,9 @@ namespace rtk
 
 		TextInput(Control& parent, int left, int top, int width, int height);
 
-		void set_text(const std::string_view value);
+		void set_text(const std::wstring_view value);
 
-		std::string get_text() const;
+		std::wstring get_text() const;
 
     protected:
         

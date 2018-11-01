@@ -82,36 +82,36 @@ namespace rtk
 
     void Control::handle_command(WPARAM wParam) {}
 
-	void Control::set_window_text(const std::string_view value)
+	void Control::set_window_text(const std::wstring_view value)
 	{
-		BOOL r = SetWindowText(hWnd, widen(value).data());
+		BOOL r = SetWindowText(hWnd, value.data());
 		if (r == FALSE)
 		{
-			throw std::runtime_error(get_last_error());
+			throw std::runtime_error(narrow(get_last_error()));
 		}
 	}
 
-	std::string Control::get_window_text() const
+	std::wstring Control::get_window_text() const
 	{
 		int len1 = GetWindowTextLength(hWnd);
 		if (len1 < 0)
 		{
-			throw std::runtime_error(get_last_error());
+			throw std::runtime_error(narrow(get_last_error()));
 		}
 
 		if (len1 == 0)
 		{
-			return std::string();
+			return std::wstring();
 		}
 
 		std::vector<wchar_t> buffer(len1 + 1);
 		int len2 = GetWindowText(hWnd, buffer.data(), static_cast<int>(buffer.size()));
 		if (len1 != len2)
 		{
-			throw std::runtime_error(get_last_error());
+			throw std::runtime_error(narrow(get_last_error()));
 		}
 
-		return narrow(buffer.data());
+		return buffer.data();
 	}
 
 	RECT Control::get_rect() const
@@ -121,7 +121,7 @@ namespace rtk
 		BOOL r = GetWindowRect(hWnd, &rect);
 		if (r == FALSE)
 		{
-			throw std::runtime_error(get_last_error());
+			throw std::runtime_error(narrow(get_last_error()));
 		}
 
 		return rect;
@@ -134,7 +134,7 @@ namespace rtk
 		BOOL r = GetClientRect(hWnd, &rect);
 		if (r == FALSE)
 		{
-			throw std::runtime_error(get_last_error());
+			throw std::runtime_error(narrow(get_last_error()));
 		}
 
 		return rect;

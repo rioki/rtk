@@ -24,7 +24,7 @@
 #include "pch.h"
 
 TEST(TextInput, construct) {
-	rtk::Window window(__FUNCTION__);
+	rtk::Window window;
 	rtk::TextInput input(window, 0, 1, 151, 14);
 
 	// CHECKME
@@ -36,21 +36,21 @@ TEST(TextInput, construct) {
 
 TEST(TextInput, defaults)
 {
-	rtk::Window window(__FUNCTION__);
+	rtk::Window window;
 	rtk::TextInput input(window);
 
 	EXPECT_EQ(150, input.get_width());
 	EXPECT_EQ(24, input.get_height());
-	EXPECT_EQ("", input.get_text());
+	EXPECT_EQ(L"", input.get_text());
 }
 
 TEST(TextInput, set_get_text)
 {
-	rtk::Window window(__FUNCTION__);
+	rtk::Window window;
 	rtk::TextInput input(window);
 
-	EXPECT_EQ("", input.get_text());
+	EXPECT_EQ(L"", input.get_text());
 	
-	input.set_text("Yolo");
-	EXPECT_EQ("Yolo", input.get_text());
+	input.set_text(L"Yolo");
+	EXPECT_EQ(L"Yolo", input.get_text());
 }

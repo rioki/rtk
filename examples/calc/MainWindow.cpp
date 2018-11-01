@@ -29,23 +29,23 @@
 namespace calc
 {
 	MainWindow::MainWindow()
-	: rtk::Window(CW_USEDEFAULT, CW_USEDEFAULT, 166, 252, "Calculator")
+	: rtk::Window(CW_USEDEFAULT, CW_USEDEFAULT, 166, 252, L"Calculator")
 	{
-        display.set_text("0");
+        display.set_text(L"0");
 
         button_c.on_click([this] () {
-            display.set_text("0");
+            display.set_text(L"0");
         });
         button_ce.on_click([this] () {
             value = 0.0f;
             op = NOP;
-            display.set_text("0");
+            display.set_text(L"0");
         });
         button_bk.on_click([this] () {
             auto text = display.get_text();
             if (text.size() == 1)
             {
-                display.set_text("0");
+                display.set_text(L"0");
             }
             else
             {
@@ -54,41 +54,41 @@ namespace calc
         });
 
         button_1.on_click([this] () {
-            add_digit('1');
+            add_digit(L'1');
         });
         button_2.on_click([this] () {
-            add_digit('2');
+            add_digit(L'2');
         });
         button_3.on_click([this] () {
-            add_digit('3');
+            add_digit(L'3');
         });
         button_4.on_click([this] () {
-            add_digit('4');
+            add_digit(L'4');
         });
         button_5.on_click([this] () {
-            add_digit('5');
+            add_digit(L'5');
         });
         button_6.on_click([this] () {
-            add_digit('6');
+            add_digit(L'6');
         });
         button_7.on_click([this] () {
-            add_digit('7');
+            add_digit(L'7');
         });
         button_8.on_click([this] () {
-            add_digit('8');
+            add_digit(L'8');
         });
         button_9.on_click([this] () {
-            add_digit('9');
+            add_digit(L'9');
         });
         button_0.on_click([this] () {
-            add_digit('0');
+            add_digit(L'0');
         });
 
         button_dot.on_click([this] () {
-            add_digit('.');
+            add_digit(L'.');
         });
         button_neg.on_click([this] () {
-            add_digit('-');
+            add_digit(L'-');
         });
         
         button_add.on_click([this] () {
@@ -115,32 +115,32 @@ namespace calc
         if (op == EVA)
         {
             op = NOP;
-            text = "0";
+            text = L"0";
         }
 
         if (c == '.')
         {
-            if (text.find('.') == std::string::npos)
+            if (text.find(L'.') == std::wstring::npos)
             {
                 text.push_back(c);    
             }
         }
-        else if (c == '-')
+        else if (c == L'-')
         {
-            if (text[0] != '-')
+            if (text[0] != L'-')
             {
-                text = "-" + text;
+                text = L"-" + text;
             }
         }
         else
         {
-            if (text == "0")
+            if (text == L"0")
             {
                 text = c;
             }
-            else if (text == "-0")
+            else if (text == L"-0")
             {
-                text = "-";
+                text = L"-";
                 text.push_back(c);
             }
             else
@@ -184,11 +184,11 @@ namespace calc
         op = next_op;
         if (next_op != EVA)
         {
-            display.set_text("0");
+            display.set_text(L"0");
         }
         else
         {
-            display.set_text(std::to_string(value));
+            display.set_text(std::to_wstring(value));
         }
     }
 }

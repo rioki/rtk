@@ -66,24 +66,41 @@ namespace rtk
         }
     }
 
-    std::string get_last_error() 
+    std::wstring get_last_error() 
     { 
-        LPVOID lpMsgBuf;
+        LPTSTR lpMsgBuf;
         DWORD dw = GetLastError(); 
         DWORD dwFlags = FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS;
 
-        FormatMessage(dwFlags, NULL, dw, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPTSTR)&lpMsgBuf, 0, NULL);
+        FormatMessage(dwFlags, NULL, dw, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), lpMsgBuf, 0, NULL);
 
-        std::string r = narrow((LPCTSTR)lpMsgBuf);
+        auto r = std::wstring(lpMsgBuf);
 
         LocalFree(lpMsgBuf);
         
         return r;
     }
 
-    void show_message_box(const std::string& caption, const std::string& text)
+    void format_exception(const std::exception& e, std::ostream& out, int level = 0)
     {
-        MessageBox(NULL, widen(text).c_str(), widen(caption).c_str(), MB_OK|MB_ICONERROR);
+        out << std::string(level, ' ') << e.what() << '\n';
+        try {
+            std::rethrow_if_nested(e);
+        } catch(const std::exception& e) {
+            format_exception(e, out, level+1);
+        } catch(...) {}
+    }
+
+    std::string format_exception(const std::exception& ex)
+    {
+        std::stringstream buff;
+        format_exception(ex, buff);
+        return buff.str();
+    }
+
+    void show_message_box(const std::wstring& caption, const std::wstring& text)
+    {
+        MessageBox(NULL, text.c_str(), caption.c_str(), MB_OK|MB_ICONERROR);
     }
 
     std::wstring get_app_name()
@@ -114,6 +131,5 @@ namespace rtk
     {
         static std::atomic<DWORD> last_id(10000);
         return ++last_id;
-
     }
 }

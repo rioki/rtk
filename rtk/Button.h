@@ -13,15 +13,15 @@ namespace rtk
     {
     public:
 
-		Button(Control& parent, const std::string_view caption);
+		Button(Control& parent, const std::wstring_view caption);
 
-        Button(Control& parent, int x, int y, int width, int height, const std::string_view caption);
+        Button(Control& parent, int x, int y, int width, int height, const std::wstring_view caption);
 
         ~Button();
 
-		void set_caption(const std::string_view value);
+		void set_caption(const std::wstring_view value);
 
-		std::string get_caption() const;
+		std::wstring get_caption() const;
     
         void on_click(std::function<void ()> cb);
 
