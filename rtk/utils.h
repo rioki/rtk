@@ -48,7 +48,7 @@ namespace rtk
     
     };
 
-    RTK_EXPORT void show_message_box(const std::wstring& caption, const std::wstring& text);
+    RTK_EXPORT void show_message_box(const std::wstring_view caption, const std::wstring_view text);
 
     /**
      * Get the application's name.

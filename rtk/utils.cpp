@@ -68,7 +68,7 @@ namespace rtk
 
     std::wstring get_last_error() 
     { 
-        LPTSTR lpMsgBuf;
+        LPTSTR lpMsgBuf = nullptr;
         DWORD dw = GetLastError(); 
         DWORD dwFlags = FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS;
 
@@ -98,9 +98,9 @@ namespace rtk
         return buff.str();
     }
 
-    void show_message_box(const std::wstring& caption, const std::wstring& text)
+    void show_message_box(const std::wstring_view caption, const std::wstring_view text)
     {
-        MessageBox(NULL, text.c_str(), caption.c_str(), MB_OK|MB_ICONERROR);
+        MessageBox(NULL, text.data(), caption.data(), MB_OK|MB_ICONERROR);
     }
 
     std::wstring get_app_name()

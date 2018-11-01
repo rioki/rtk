@@ -28,11 +28,16 @@
 #include <stdio.h>
 #include <intrin.h>
 #include <dbghelp.h>
+#include <array>
 #include <vector>
 #include <string>
 #include <sstream>
 
 #ifndef NDEBUG
+
+#pragma warning(push)
+//  error C4996: '_vsnwprintf': This function or variable may be unsafe. Consider using _vsnwprintf_s instead.
+#pragma warning(disable: 4996)
 
 #pragma comment(lib, "dbghelp.lib")
 
@@ -53,23 +58,31 @@
 namespace dbg
 {    
     inline 
-    void trace(const char* msg, ...)
+    void trace(const std::string_view msg, ...)
     {
-        char buff[1024];
+        std::array<char, 1024> buff;
 
         va_list args;
         va_start(args, msg);
-        vsnprintf(buff, 1024, msg, args);
+        vsnprintf(buff.data(), buff.size(), msg.data(), args);
 
-        OutputDebugStringA(buff);
+        OutputDebugStringA(buff.data());
 
         va_end(args);
     }
 
     inline 
-    void trace(const std::string& msg)
+    void trace(const std::wstring_view msg, ...)
     {
-        OutputDebugStringA(msg.c_str());
+        std::array<wchar_t, 1024> buff;
+
+        va_list args;
+        va_start(args, msg);
+        _vsnwprintf(buff.data(), buff.size(), msg.data(), args);
+
+        OutputDebugStringW(buff.data());
+
+        va_end(args);
     }
 
     inline
@@ -247,6 +260,8 @@ namespace dbg
         abort();
     }
 }
+
+#pragma warning(pop)
 
 #else
 #define DBG_TRACE(MSG, ...)
