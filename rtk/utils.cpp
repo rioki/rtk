@@ -74,11 +74,19 @@ namespace rtk
 
         FormatMessage(dwFlags, NULL, dw, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), lpMsgBuf, 0, NULL);
 
-        auto r = std::wstring(lpMsgBuf);
+        if (lpMsgBuf != nullptr)
+        {
+            auto r = std::wstring(lpMsgBuf);
 
-        LocalFree(lpMsgBuf);
+            LocalFree(lpMsgBuf);
         
-        return r;
+            return r;
+        }
+        else
+        {
+            DBG_FAIL("NULL lpMsgBuf");
+            return L"No error.";
+        }        
     }
 
     void format_exception(const std::exception& e, std::ostream& out, int level = 0)

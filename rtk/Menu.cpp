@@ -41,6 +41,32 @@ namespace rtk
         return id;
     }
 
+    std::wstring Menu::MenuItem::get_caption() const
+    {
+        MENUITEMINFO menuinfo = {0};
+        menuinfo.cbSize = sizeof(MENUITEMINFO);
+        menuinfo.fMask  = MIIM_STRING;
+        BOOL r = GetMenuItemInfo(menu, id, FALSE, &menuinfo);
+        if (r != TRUE)
+        {
+			throw std::runtime_error(narrow(get_last_error()));
+        }
+
+        DBG_ASSERT(menuinfo.fType == MFT_STRING);
+
+        std::vector<wchar_t> buffer(menuinfo.cch + 1);
+        menuinfo.cch        = menuinfo.cch + 1;
+        menuinfo.dwTypeData = buffer.data();
+
+        r = GetMenuItemInfo(menu, id, FALSE, &menuinfo);
+        if (r != TRUE)
+        {
+			throw std::runtime_error(narrow(get_last_error()));
+        }
+
+        return std::wstring(buffer.data());
+    }
+
     std::shared_ptr<Menu> Menu::create()
     {
         return std::make_shared<Menu>();
@@ -75,7 +101,7 @@ namespace rtk
     std::shared_ptr<Menu::MenuItem> Menu::add(const std::wstring_view caption, std::function<void()> callback)
     {
         DBG_ASSERT(handle != NULL);
-        DBG_ASSERT(callback != NULL);
+        DBG_ASSERT(callback != nullptr);
 
         DWORD id = get_unique_id();
         
@@ -94,7 +120,7 @@ namespace rtk
     std::shared_ptr<Menu::MenuItem> Menu::add(const std::wstring_view caption, std::shared_ptr<Menu> menu)
     {
         DBG_ASSERT(handle != NULL);
-        DBG_ASSERT(menu != NULL);
+        DBG_ASSERT(menu != nullptr);
 
         HMENU hSubMenu = *menu;
 
@@ -104,10 +130,34 @@ namespace rtk
 			throw std::runtime_error(narrow(get_last_error()));
         }
 
-        auto item = std::make_shared<MenuItem>(handle, items.size(), menu);
+        auto item = std::make_shared<MenuItem>(handle, items.size(), menu);        
         items.push_back(item);
 
         return item;
+    }
+
+    std::shared_ptr<Menu::MenuItem> Menu::insert(size_t position, const std::wstring_view caption, std::function<void ()> callback)
+    {
+        DBG_ASSERT(handle != NULL);        
+        DBG_ASSERT(callback != nullptr);
+
+        DWORD id = get_unique_id();
+        
+        BOOL r = InsertMenu(handle, position, MF_BYPOSITION | MF_STRING, id, caption.data());
+        if (r != TRUE)
+        {
+			throw std::runtime_error(narrow(get_last_error()));
+        }
+
+        auto item = std::make_shared<MenuItem>(handle, position, id, callback);
+        items.insert(items.begin() + position, item);
+
+        return item;
+    }
+
+    const std::vector<std::shared_ptr<Menu::MenuItem>>& Menu::get_items() const
+    {
+        return items;
     }
 
     void Menu::handle_command(WPARAM wParam)

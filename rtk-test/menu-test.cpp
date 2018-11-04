@@ -74,3 +74,56 @@ TEST(Menu, dispatch)
     EXPECT_EQ(true, triggered);
 }
 
+TEST(Menu, add_ordering)
+{
+    auto menu = rtk::Menu::create();
+    
+    auto one = menu->add(L"&One", [&] () {});
+    auto two = menu->add(L"&Two", [&] () {});
+
+    auto items = menu->get_items();
+
+    EXPECT_EQ(2, items.size());
+    EXPECT_EQ(one, items.at(0));
+    EXPECT_EQ(two, items.at(1));
+}
+
+TEST(Menu, item_caption)
+{
+    auto menu = rtk::Menu::create();
+    
+    auto one = menu->add(L"&One", [&] () {});
+    
+    EXPECT_EQ(L"&One", one->get_caption());    
+}
+
+TEST(Menu, insert_ordering)
+{
+    auto menu = rtk::Menu::create();
+    
+    auto one = menu->add(L"&One", [&] () {});
+    auto two = menu->add(L"&Two", [&] () {});
+
+    auto three = menu->insert(1, L"&Three", [&] () {});
+
+    auto items = menu->get_items();
+
+    EXPECT_EQ(3, items.size());
+    EXPECT_EQ(one, items.at(0));
+    EXPECT_EQ(three, items.at(1));
+    EXPECT_EQ(two, items.at(2));
+}
+
+TEST(Menu, insert_maintains_internal_state)
+{
+    auto menu = rtk::Menu::create();
+    
+    auto one = menu->add(L"&One", [&] () {});
+    auto two = menu->add(L"&Two", [&] () {});
+
+    auto three = menu->insert(1, L"&Three", [&] () {});
+
+    EXPECT_EQ(L"&One", one->get_caption());  
+    EXPECT_EQ(L"&Two", two->get_caption());  
+    EXPECT_EQ(L"&Three", three->get_caption());  
+}

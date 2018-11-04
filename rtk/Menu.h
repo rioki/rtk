@@ -56,6 +56,8 @@ namespace rtk
 
             DWORD get_id() const;
 
+            std::wstring get_caption() const;
+
         private:
             HMENU menu = NULL;
             UINT position = 0;
@@ -83,9 +85,13 @@ namespace rtk
 
         operator const HMENU () const;
 
-        std::shared_ptr<MenuItem> add(const std::wstring_view caption, std::function<void ()> callback);
+        std::shared_ptr<MenuItem> add(const std::wstring_view caption, std::function<void ()> callback);        
 
         std::shared_ptr<MenuItem> add(const std::wstring_view caption, std::shared_ptr<Menu> menu);
+
+        std::shared_ptr<MenuItem> insert(size_t position, const std::wstring_view caption, std::function<void ()> callback);
+
+        const std::vector<std::shared_ptr<MenuItem>>& get_items() const;
 
         void handle_command(WPARAM wParam);
 
