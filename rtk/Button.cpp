@@ -18,7 +18,7 @@ namespace rtk
         DWORD dwStyle = WS_TABSTOP|WS_VISIBLE|WS_CHILD|BS_DEFPUSHBUTTON;
 
         hWnd = CreateWindowEx(NULL, L"BUTTON", caption.data(), dwStyle, x, y, width, height, parent, (HMENU)IDC_MAIN_BUTTON, GetModuleHandle(NULL), NULL);
-        if (hWnd == NULL) 
+        if (hWnd == NULL)
         {
             throw std::runtime_error(narrow(get_last_error()));
         }

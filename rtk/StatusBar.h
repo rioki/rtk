@@ -23,16 +23,46 @@
 
 #pragma once
 
-#include <rtk/rtk.h>
+#include "Control.h"
 
-namespace notes
+namespace rtk
 {
-    class MainWindow : public rtk::Window
+
+    /*!
+     * Status Bar
+     */
+    class RTK_EXPORT StatusBar : public Control
     {
     public:
-        MainWindow();
+
+        StatusBar(Control& parent);
+
+        /*!
+         * Set the segment count.
+         */
+        void set_segment_count(size_t value);
+
+        /*!
+         * Get the segment count.
+         */
+        size_t get_segment_count() const;
+
+        /*!
+         * Set the text of one segment
+         */
+        void set_text(size_t segment, const std::wstring_view text);
+
+        /*!
+         * Get the text of one segment
+         */
+        std::wstring get_text(size_t segment) const;
+
+        void handle_resize() override;
 
     private:
-        void create_menu();
+        size_t segment_count = 1;
+
+        void reset_segments();
     };
+
 }

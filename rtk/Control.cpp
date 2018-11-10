@@ -3,21 +3,21 @@
 // Copyright 2018 Sean "rioki" Farrell <sean.farrell@rioki.org>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to 
-// deal in the Software without restriction, including without limitation the 
-// rights to use, copy, modify, merge, publish, distribute, sublicense, and/or 
-// sell copies of the Software, and to permit persons to whom the Software is 
+// of this software and associated documentation files (the "Software"), to
+// deal in the Software without restriction, including without limitation the
+// rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+// sell copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
 //
 // The above copyright notice and this permission notice shall be included in all
 // copies or substantial portions of the Software.
-// 
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE 
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING 
-// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 //
 
@@ -25,12 +25,50 @@
 
 #include "Control.h"
 #include "utils.h"
+#include "dbg.h"
 
 namespace rtk
 {
+    Control::~Control()
+    {
+        if (hWnd)
+        {
+            SetWindowLongPtr(hWnd, GWLP_USERDATA, (LONG_PTR)NULL);
+
+            BOOL r = DestroyWindow(hWnd);
+            if (r == FALSE)
+            {
+                DBG_TRACE("Failed to destroy window.");
+            }
+        }
+        hWnd = NULL;
+    }
+
     Control::operator HWND () const
     {
         return hWnd;
+    }
+
+    Control* Control::get_parent()
+    {
+        DBG_ASSERT(hWnd != NULL);
+
+        HWND hParentWnd = GetParent(hWnd);
+        if (hParentWnd != NULL)
+        {
+            Control* parent = (Control*)GetWindowLongPtr(hParentWnd, GWLP_USERDATA);
+            if (parent != nullptr)
+            {
+                return parent;
+            }
+        }
+        DBG_TRACE("returning null parent");
+        return nullptr;
+    }
+
+    const Control* Control::get_parent() const
+    {
+        return const_cast<Control*>(this)->get_parent();
     }
 
 	int Control::get_left() const
@@ -75,12 +113,23 @@ namespace rtk
 		return get_client_rect().bottom;
 	}
 
+    void Control::resize(int width, int height)
+    {
+        BOOL r = SetWindowPos(hWnd, NULL, 0, 0, width, height, SWP_NOMOVE | SWP_NOZORDER);
+        if (r == FALSE)
+		{
+			throw std::runtime_error(narrow(get_last_error()));
+		}
+    }
+
 	bool Control::is_visible() const
 	{
 		return IsWindowVisible(hWnd) == TRUE;
 	}
 
     void Control::handle_command(WPARAM wParam) {}
+
+    void Control::handle_resize() {}
 
 	void Control::set_window_text(const std::wstring_view value)
 	{
@@ -117,7 +166,7 @@ namespace rtk
 	RECT Control::get_rect() const
 	{
 		RECT rect;
-		
+
 		BOOL r = GetWindowRect(hWnd, &rect);
 		if (r == FALSE)
 		{

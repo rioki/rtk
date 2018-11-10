@@ -3,21 +3,21 @@
 // Copyright 2018 Sean "rioki" Farrell <sean.farrell@rioki.org>
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to 
-// deal in the Software without restriction, including without limitation the 
-// rights to use, copy, modify, merge, publish, distribute, sublicense, and/or 
-// sell copies of the Software, and to permit persons to whom the Software is 
+// of this software and associated documentation files (the "Software"), to
+// deal in the Software without restriction, including without limitation the
+// rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+// sell copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
 //
 // The above copyright notice and this permission notice shall be included in all
 // copies or substantial portions of the Software.
-// 
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE 
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING 
-// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 // DEALINGS IN THE SOFTWARE.
 //
 
@@ -29,6 +29,7 @@
 #include "utils.h"
 
 #include "Menu.h"
+#include "StatusBar.h"
 
 namespace rtk
 {
@@ -41,7 +42,7 @@ namespace rtk
                 CREATESTRUCT* cs = reinterpret_cast<CREATESTRUCT*>(lParam);
                 SetWindowLongPtr(hWnd, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(cs->lpCreateParams));
                 break;
-            }            
+            }
             case WM_DESTROY:
             {
                 PostQuitMessage(0);
@@ -51,16 +52,34 @@ namespace rtk
             {
                 HWND hCtrl = (HWND)lParam;
                 Control* ctrl = (Control*)GetWindowLongPtr(hCtrl, GWLP_USERDATA);
-                if (ctrl != NULL) 
+                if (ctrl != NULL)
                 {
                     ctrl->handle_command(wParam);
                 }
                 else
                 {
                     Control* window = (Control*)GetWindowLongPtr(hWnd, GWLP_USERDATA);
-                    if (window != NULL) 
+                    if (window != NULL)
                     {
                         window->handle_command(wParam);
+                    }
+                }
+                break;
+            }
+            case WM_SIZE:
+            {
+                HWND hCtrl = (HWND)lParam;
+                Control* ctrl = (Control*)GetWindowLongPtr(hCtrl, GWLP_USERDATA);
+                if (ctrl != NULL)
+                {
+                    ctrl->handle_resize();
+                }
+                else
+                {
+                    Control* window = (Control*)GetWindowLongPtr(hWnd, GWLP_USERDATA);
+                    if (window != NULL)
+                    {
+                        window->handle_resize();
                     }
                 }
                 break;
@@ -116,14 +135,10 @@ namespace rtk
         if(!hWnd)
         {
             throw std::runtime_error(narrow(get_last_error()));
-        } 
+        }
 
 		SetWindowText(hWnd, caption.data());
-    }
-
-    Window::~Window()
-    {
-        DestroyWindow(hWnd);
+        SetWindowLongPtr(hWnd, GWLP_USERDATA, (LONG_PTR)this);
     }
 
 	std::wstring Window::get_caption() const
@@ -179,11 +194,33 @@ namespace rtk
         return menu;
     }
 
+    std::shared_ptr<StatusBar> Window::create_status_bar()
+    {
+        DBG_ASSERT(status_bar == nullptr);
+
+        status_bar = std::make_unique<StatusBar>(*this);
+        return status_bar;
+    }
+
+    std::shared_ptr<StatusBar> Window::get_status_bar() const
+    {
+        DBG_ASSERT(status_bar);
+        return status_bar;
+    }
+
     void Window::handle_command(WPARAM wParam)
     {
         if (menu)
         {
             menu->handle_command(wParam);
+        }
+    }
+
+    void Window::handle_resize()
+    {
+        if (status_bar)
+        {
+            status_bar->handle_resize();
         }
     }
 }

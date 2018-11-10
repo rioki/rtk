@@ -31,6 +31,12 @@ namespace notes
     : rtk::Window(L"notes")
     {
         create_menu();
+
+        auto sb = create_status_bar();
+        sb->set_segment_count(3);
+        sb->set_text(0, L"One");
+        sb->set_text(1, L"Two");
+        sb->set_text(2, L"Three");
     }
 
     void MainWindow::create_menu()
