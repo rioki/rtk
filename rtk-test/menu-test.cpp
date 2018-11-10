@@ -74,6 +74,23 @@ TEST(Menu, dispatch)
     EXPECT_EQ(true, triggered);
 }
 
+TEST(Menu, dispatch_submenu)
+{
+    auto submenu = rtk::Menu::create();
+    
+    bool triggered = false;
+    auto menuItem = submenu->add(L"&Test", [&] () {
+        triggered = true;
+    });
+
+    
+    auto menu = rtk::Menu::create();    
+    menu->add(L"&Test", submenu);
+    menu->handle_command(menuItem->get_id());
+
+    EXPECT_EQ(true, triggered);
+}
+
 TEST(Menu, add_ordering)
 {
     auto menu = rtk::Menu::create();
@@ -95,6 +112,23 @@ TEST(Menu, item_caption)
     auto one = menu->add(L"&One", [&] () {});
     
     EXPECT_EQ(L"&One", one->get_caption());    
+
+    one->set_caption(L"&Foo");
+
+    EXPECT_EQ(L"&Foo", one->get_caption());    
+}
+
+TEST(Menu, submenu_caption)
+{
+    auto menu = rtk::Menu::create();
+    
+    auto one = menu->add(L"&One", rtk::Menu::create());
+    
+    EXPECT_EQ(L"&One", one->get_caption());    
+
+    one->set_caption(L"&Foo");
+
+    EXPECT_EQ(L"&Foo", one->get_caption());    
 }
 
 TEST(Menu, insert_ordering)
@@ -105,6 +139,23 @@ TEST(Menu, insert_ordering)
     auto two = menu->add(L"&Two", [&] () {});
 
     auto three = menu->insert(1, L"&Three", [&] () {});
+
+    auto items = menu->get_items();
+
+    EXPECT_EQ(3, items.size());
+    EXPECT_EQ(one, items.at(0));
+    EXPECT_EQ(three, items.at(1));
+    EXPECT_EQ(two, items.at(2));
+}
+
+TEST(Menu, insert_ordering_submenu)
+{
+    auto menu = rtk::Menu::create();
+    
+    auto one = menu->add(L"&One", rtk::Menu::create());
+    auto two = menu->add(L"&Two", rtk::Menu::create());
+
+    auto three = menu->insert(1, L"&Three", rtk::Menu::create());
 
     auto items = menu->get_items();
 
@@ -126,4 +177,21 @@ TEST(Menu, insert_maintains_internal_state)
     EXPECT_EQ(L"&One", one->get_caption());  
     EXPECT_EQ(L"&Two", two->get_caption());  
     EXPECT_EQ(L"&Three", three->get_caption());  
+}
+
+TEST(Menu, remove)
+{
+    auto menu = rtk::Menu::create();
+    
+    auto one = menu->add(L"&One", [&] () {});
+    auto two = menu->add(L"&Two", [&] () {});
+    auto three = menu->add(L"&Three", [&] () {});
+
+    menu->remove(1);
+
+    auto items = menu->get_items();
+
+    EXPECT_EQ(2, items.size());
+    EXPECT_EQ(one, items.at(0));
+    EXPECT_EQ(three, items.at(1));
 }

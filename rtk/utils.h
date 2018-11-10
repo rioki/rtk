@@ -33,7 +33,7 @@ namespace rtk
     RTK_EXPORT std::string narrow(const std::wstring_view str);    
     RTK_EXPORT std::wstring get_last_error();
 
-    /**
+    /*!
      * Create a comprehensive expansion of nested exceptions.
      **/
     std::string format_exception(const std::exception& ex);
@@ -50,7 +50,7 @@ namespace rtk
 
     RTK_EXPORT void show_message_box(const std::wstring_view caption, const std::wstring_view text);
 
-    /**
+    /*!
      * Get the application's name.
      */
     RTK_EXPORT std::wstring get_app_name();
